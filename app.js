@@ -32,7 +32,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(expressWinston.logger({
+//暂时注释掉请求Log
+/*app.use(expressWinston.logger({
     transports: [
         new (winston.transports.Console)({
             json: true,
@@ -42,7 +43,7 @@ app.use(expressWinston.logger({
             filename: 'logs/success.log'
         })
     ]
-}));
+}));*/
 
 appRouter(app);
 sysRouter(app);

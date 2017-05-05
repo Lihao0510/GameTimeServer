@@ -15,6 +15,7 @@ let sys_userSchema = Schema({
     user_email: {type: String,},
     user_desc: {type: String},
     user_type: {type: Number},
+    user_head: {type: String},
     create_time: {type: Date},
     update_time: {type: Date},
 });
