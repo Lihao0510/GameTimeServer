@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta author="李昊">
+    <title>APP后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/register-login.css">
+</head>
+<body>
+<div id="box"></div>
+<div class="cent-box">
+    <div class="cent-box-header">
+        <h1 class="main-title hide">APP管理后台</h1>
+        <h2 class="sub-title">高效后台管理 - Smart Service</h2>
+    </div>
+
+    <div class="cont-main clearfix">
+        <div class="index-tab">
+            <div class="index-slide-nav">
+                <a href="/" class="active">登录</a>
+                <a href="/register">注册</a>
+                <div class="slide-bar"></div>
+            </div>
+        </div>
+
+        <div class="login form">
+            <div class="group">
+                <div class="group-ipt email">
+                    <input type="text" name="username" id="username" class="ipt" placeholder="输入您的用户名" required>
+                </div>
+                <div class="group-ipt password">
+                    <input type="password" name="password" id="password" class="ipt" placeholder="输入您的登录密码" required>
+                </div>
+                <div class="group-ipt error-blank" style="text-align:center">
+                </div>
+            </div>
+        </div>
+
+        <div class="button">
+            <button type="submit" class="login-btn register-btn" id="button">登录</button>
+        </div>
+
+        <div class="remember clearfix">
+            <label class="remember-me"><span class="icon"><span class="zt"></span></span><input type="checkbox"
+                                                                                                name="remember-me"
+                                                                                                id="remember-me"
+                                                                                                class="remember-mecheck"
+                                                                                                checked>记住我</label>
+            <label class="forgot-password">
+                <a href="#">忘记密码？</a>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>APP数据管理后台</p>
+    <p>Designed By Lihao & <a href="/">回到主页</a> 2017.1</p>
+</div>
+
+<script src='/javascripts/particles.js' type="text/javascript"></script>
+<script src='/javascripts/background.js' type="text/javascript"></script>
+<script src='/javascripts/jquery.min.js' type="text/javascript"></script>
+<script src='/javascripts/layer/layer.js' type="text/javascript"></script>
+<script src='/javascripts/index.js' type="text/javascript"></script>
+<script>
+    $("#button").on('click', function () {
+        $('.error-blank').empty()
+        var username = $('#username').val()
+        var password = $('#password').val()
+        //window.alert(username + ':' + password)
+        var obj = {
+            userphone: username,
+            userpwd: password
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/login/login',
+            data: obj,
+            success: function (data) {
+                if (data.status === 1) {
+                    //TODO: 后续改成管理后台主页
+                    $('.error-blank').prepend('<p style="color: red; size: 12px">登陆成功</p>')
+                } else {
+                    //alert('登录失败:' + data.info)
+                    $('.error-blank').prepend('<p style="color: red; size: 12px">用户名或密码错误</p>')
+                }
+            },
+            error: function () {
+                alert('登录失败!')
+            },
+            dataType: 'json'
+        })
+    });
+    $("#remember-me").click(function () {
+        var n = document.getElementById("remember-me").checked;
+        if (n) {
+            $(".zt").show();
+        } else {
+            $(".zt").hide();
+        }
+    });
+</script>
+</body>
+</html>
