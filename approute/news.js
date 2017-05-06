@@ -5,76 +5,221 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 var localNewsDao = require('../dao/localNewsDao');
+var weixinNewsDao = require('../dao/weixinNewsDao');
 var commentDao = require('../dao/commentDao');
 
-router.get('/local/:newsID', function (req, res, next) {
-
+//查找全部本地新闻
+router.get('/local/getallnews', function (req, res, next) {
+    localNewsDao.getAllLocalNews()
+        .then(function (data) {
+            return res.send({
+                status: 1,
+                news: data
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
 });
 
-router.get('/wechat/:newsID', function (req, res, next) {
-
+//分页查找本地新闻
+router.post('/local/querynews', function (req, res, next) {
+    let pageSize = req.body.pagesize;
+    let pageNum = req.body.pagenum;
+    localNewsDao.getAllLocalNews(pageNum, pageSize)
+        .then(function (data) {
+            return res.send({
+                status: 1,
+                news: data
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
 });
 
-router.post('/wechatcomment/:newsID', function (req, res, next) {
-    let newsID = req.params.newsID;
-    let commentBody = req.body.comment;
-
-
+//查找全部微信新闻
+router.get('/weixin/getallnews', function (req, res, next) {
+    weixinNewsDao.getAllWeixinNews()
+        .then(function (data) {
+            return res.send({
+                status: 1,
+                news: data
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
 });
 
-router.post('/localcomment/:newsID', function (req, res, next) {
-
+//分页查找微信新闻
+router.post('/weixin/querynews', function (req, res, next) {
+    let pageSize = req.body.pagesize;
+    let pageNum = req.body.pagenum;
+    weixinNewsDao.pageQueryWeixinNews(pageNum, pageSize)
+        .then(function (data) {
+            return res.send({
+                status: 1,
+                news: data
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
 });
 
-router.get('/testcreatelocal', function (req, res, next) {
+//新建本地新闻
+router.post('/local/create', function (req, res, next) {
+
+    let title = req.body.title;
+    let content = req.body.content;
+    let type = req.body.type;
+    let from = req.body.from;
+    let picurl = req.body.picurl;
+
     localNewsDao.createLocalNews({
-        news_title: '王尼玛出任日天集团CEO',
-        news_type: 1,
-        news_content: '王尼玛出任日天集团CEO',
-        news_pic: 'https://img12.360buyimg.com/cms/jfs/t5173/358/865323864/257251/1d68e907/5907fb36Nde715dda.png',
-        news_from: '腾讯新闻',
+        news_title: title,
+        news_type: type,
+        news_content: content,
+        news_pic: picurl,
+        news_from: from,
         create_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')
     })
         .then(function (data) {
-            res.send({
+            return res.send({
                 status: 1,
                 data: data
             })
         })
         .catch(function (error) {
-            res.send({
+            return res.send({
                 status: 4,
                 data: error.toString()
             })
         });
 });
 
-router.get('/testcomment', function (req, res, next) {
-    commentDao.addCommentToLocalNews('590c6da454908c080cfa95a6', '这真TM是个大新闻', '590b3d233c7f580cc89b5800')
-        .then(function () {
-            res.send({
+//新建微信新闻
+router.post('/weixin/create', function (req, res, next) {
+
+    let title = req.body.title;
+    let newsurl = req.body.newsurl;
+    let type = req.body.type;
+    let from = req.body.from;
+    let picurl = req.body.picurl;
+
+    weixinNewsDao.createWeixinNews({
+        news_title: title,
+        news_type: type,
+        news_url: newsurl,
+        news_pic: picurl,
+        news_from: from,
+        create_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')
+    })
+        .then(function (data) {
+            return res.send({
                 status: 1,
-                result: '添加评论成功!'
+                data: data
             })
         })
         .catch(function (error) {
-            res.send({
+            return res.send({
                 status: 4,
                 data: error.toString()
             })
         });
 });
 
-router.get('/testpopulate', function (req, res, next){
-    localNewsDao.getLocalNewsByID('590c6da454908c080cfa95a6')
+//为本地新闻增加评论
+router.post('/localcomment/:localNewsID', function (req, res, next) {
+
+    let newsID = req.params.localNewsID;
+    let commentbody = req.params.commentbody;
+    let userID = req.params.userid;
+
+    commentDao.addCommentToLocalNews(newsID, commentbody, userID)
+        .then(function (newsResult) {
+            return res.send({
+                status: 1,
+                result: '添加评论成功!',
+                news: newsResult
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        });
+});
+
+//为微信新闻增加评论
+router.post('/weixincomment/:weixinNewsID', function (req, res, next) {
+
+    let newsID = req.params.weixinNewsID;
+    let commentbody = req.params.commentbody;
+    let userID = req.params.userid;
+
+    commentDao.addCommentToWeixinNews(newsID, commentbody, userID)
+        .then(function (newsResult) {
+            return res.send({
+                status: 1,
+                result: '添加评论成功!',
+                news: newsResult
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        });
+});
+
+//根据ID获取本地新闻详细信息
+router.get('/localdetail/:localNewsID', function (req, res, next) {
+
+    let newsID = req.params.localNewsID;
+    localNewsDao.getLocalNewsByID(newsID)
         .then(function (news) {
-            res.send({
+            return res.send({
                 status: 1,
                 result: news
             })
         })
         .catch(function (error) {
-            res.send({
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        });
+});
+
+//根据ID获取微信新闻详细信息
+router.get('/weixindetail/:weixinNewsID', function (req, res, next) {
+
+    let newsID = req.params.weixinNewsID;
+    weixinNewsDao.getWeixinNewsByID(newsID)
+        .then(function (news) {
+            return res.send({
+                status: 1,
+                result: news
+            })
+        })
+        .catch(function (error) {
+            return res.send({
                 status: 4,
                 data: error.toString()
             })
