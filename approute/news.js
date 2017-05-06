@@ -4,13 +4,13 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-var localNewsDao = require('../dao/localNewsDao');
-var weixinNewsDao = require('../dao/weixinNewsDao');
-var commentDao = require('../dao/commentDao');
+var LocalNewsDao = require('../dao/localNewsDao');
+var WeixinNewsDao = require('../dao/weixinNewsDao');
+var CommentDao = require('../dao/commentDao');
 
 //查找全部本地新闻
 router.get('/local/getallnews', function (req, res, next) {
-    localNewsDao.getAllLocalNews()
+    LocalNewsDao.getAllLocalNews()
         .then(function (data) {
             return res.send({
                 status: 1,
@@ -29,7 +29,7 @@ router.get('/local/getallnews', function (req, res, next) {
 router.post('/local/querynews', function (req, res, next) {
     let pageSize = req.body.pagesize;
     let pageNum = req.body.pagenum;
-    localNewsDao.getAllLocalNews(pageNum, pageSize)
+    LocalNewsDao.getAllLocalNews(pageNum, pageSize)
         .then(function (data) {
             return res.send({
                 status: 1,
@@ -46,7 +46,7 @@ router.post('/local/querynews', function (req, res, next) {
 
 //查找全部微信新闻
 router.get('/weixin/getallnews', function (req, res, next) {
-    weixinNewsDao.getAllWeixinNews()
+    WeixinNewsDao.getAllWeixinNews()
         .then(function (data) {
             return res.send({
                 status: 1,
@@ -65,7 +65,7 @@ router.get('/weixin/getallnews', function (req, res, next) {
 router.post('/weixin/querynews', function (req, res, next) {
     let pageSize = req.body.pagesize;
     let pageNum = req.body.pagenum;
-    weixinNewsDao.pageQueryWeixinNews(pageNum, pageSize)
+    WeixinNewsDao.pageQueryWeixinNews(pageNum, pageSize)
         .then(function (data) {
             return res.send({
                 status: 1,
@@ -89,7 +89,7 @@ router.post('/local/create', function (req, res, next) {
     let from = req.body.from;
     let picurl = req.body.picurl;
 
-    localNewsDao.createLocalNews({
+    LocalNewsDao.createLocalNews({
         news_title: title,
         news_type: type,
         news_content: content,
@@ -120,7 +120,7 @@ router.post('/weixin/create', function (req, res, next) {
     let from = req.body.from;
     let picurl = req.body.picurl;
 
-    weixinNewsDao.createWeixinNews({
+    WeixinNewsDao.createWeixinNews({
         news_title: title,
         news_type: type,
         news_url: newsurl,
@@ -149,7 +149,7 @@ router.post('/localcomment/:localNewsID', function (req, res, next) {
     let commentbody = req.params.commentbody;
     let userID = req.params.userid;
 
-    commentDao.addCommentToLocalNews(newsID, commentbody, userID)
+    CommentDao.addCommentToLocalNews(newsID, commentbody, userID)
         .then(function (newsResult) {
             return res.send({
                 status: 1,
@@ -172,7 +172,7 @@ router.post('/weixincomment/:weixinNewsID', function (req, res, next) {
     let commentbody = req.params.commentbody;
     let userID = req.params.userid;
 
-    commentDao.addCommentToWeixinNews(newsID, commentbody, userID)
+    CommentDao.addCommentToWeixinNews(newsID, commentbody, userID)
         .then(function (newsResult) {
             return res.send({
                 status: 1,
@@ -192,7 +192,7 @@ router.post('/weixincomment/:weixinNewsID', function (req, res, next) {
 router.get('/localdetail/:localNewsID', function (req, res, next) {
 
     let newsID = req.params.localNewsID;
-    localNewsDao.getLocalNewsByID(newsID)
+    LocalNewsDao.getLocalNewsByID(newsID)
         .then(function (news) {
             return res.send({
                 status: 1,
@@ -211,7 +211,7 @@ router.get('/localdetail/:localNewsID', function (req, res, next) {
 router.get('/weixindetail/:weixinNewsID', function (req, res, next) {
 
     let newsID = req.params.weixinNewsID;
-    weixinNewsDao.getWeixinNewsByID(newsID)
+    WeixinNewsDao.getWeixinNewsByID(newsID)
         .then(function (news) {
             return res.send({
                 status: 1,

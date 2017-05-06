@@ -1,10 +1,14 @@
 /**
+ * User数据操作类,包含AppUser与SysUser
  * Created by Lihao on 2017/5/1.
  */
 var AppUser = require('../model/userModel').AppUser;
+var SysUser = require('../model/userModel').SysUser;
 const moment = require('moment');
 
 module.exports = {
+
+    //根据电话查找App用户
     findAppUserByPhone: function (userPhone) {
         return AppUser.findOneAndUpdate({
             user_phone: userPhone
@@ -13,16 +17,79 @@ module.exports = {
         });
     },
 
+    //根据ID查找App用户
+    findAppUserByID: function (userID) {
+        return AppUser.findByIdAndUpdate(userID, {
+            $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //根据编号查找App用户
+    findAppUserByNo: function (userNo) {
+        return AppUser.findOneAndUpdate({
+            user_id: userNo
+        }, {
+            $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //注册App用户
     registerAppUser: function (appUser) {
         return AppUser.create(appUser);
     },
 
+    //获取全部App用户
     getAllAppUser: function () {
         return AppUser.find();
     },
 
-    changePassword: function (userPhone, userPwd) {
+    //更改App用户的密码
+    changeAppUserPwd: function (userPhone, userPwd) {
         return AppUser.update({
+            user_phone: userPhone
+        }, {
+            $set: {user_pwd: userPwd}
+        });
+    },
+
+    //根据电话查找系统用户
+    findSysUserByPhone: function (userPhone) {
+        return SysUser.findOneAndUpdate({
+            user_phone: userPhone
+        }, {
+            $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //根据ID查找系统用户
+    findSysUserByID: function (userID) {
+        return SysUser.findByIdAndUpdate(userID, {
+            $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //根据编号查找系统用户
+    findSysUserByNo: function (userNo) {
+        return SysUser.findOneAndUpdate({
+            user_id: userNo
+        }, {
+            $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //注册系统用户
+    registerSysUser: function (sysUser) {
+        return SysUser.create(sysUser);
+    },
+
+    //获取全部系统用户
+    getAllSysUser: function () {
+        return SysUser.find();
+    },
+
+    //更改系统用户的密码
+    changeSysUserPwd: function (userPhone, userPwd) {
+        return SysUser.update({
             user_phone: userPhone
         }, {
             $set: {user_pwd: userPwd}

@@ -1,4 +1,5 @@
 /**
+ * 新闻评论数据操作类
  * Created by Lihao on 2017/5/5.
  */
 const Comment = require('../model/newsModel').NewsComment;

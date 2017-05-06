@@ -75,11 +75,11 @@
         }
         $.ajax({
             type: 'POST',
-            url: '/login/login',
+            url: '/sys/login/login',
             data: obj,
             success: function (data) {
                 if (data.status === 1) {
-                    //TODO: 后续改成管理后台主页
+                    //TODO: 后续改成前往 管理后台主页
                     $('.error-blank').prepend('<p style="color: red; size: 12px">登陆成功</p>')
                 } else {
                     //alert('登录失败:' + data.info)

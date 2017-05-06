@@ -6,5 +6,6 @@ module.exports = function (app) {
     app.use('/', require('./welcome'));
     app.use('/sys/users', require('./users'));
     app.use('/sys/counter', require('./counter'));
+    app.use('/sys/login', require('./login'));
 
 }

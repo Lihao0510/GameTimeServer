@@ -1,7 +1,9 @@
 /**
+ * 微信新闻数据操作类
  * Created by Lihao on 2017/5/5.
  */
 const WeixinNews = require('../model/newsModel').WeixinNews;
+const SysUser = require('../model/userModel').SysUser;
 const moment = require('moment');
 
 module.exports = {
@@ -41,5 +43,21 @@ module.exports = {
             .skip(pageNum * pageSize)
             .limit(pageSize)
             .sort('-create_time');
+    },
+
+    //删除指定ID的微信新闻
+    deleteWeixinNews: function (newsID) {
+        return WeixinNews.remove({_id: newsID})
+    },
+
+    //删除全部微信新闻,需要提供userID辨别权限
+    deleteAllWeixinNews: function (userID) {
+        return SysUser.findById(userID)
+            .then(function (user) {
+                if(!user || user.user_type <=5){
+                    throw new Error('你没有操作权限!')
+                }
+                return WeixinNews.remove({})
+            })
     }
 };

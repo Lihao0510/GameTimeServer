@@ -6,7 +6,7 @@ var Counter = require('../model/codeCounter').Counter;
 module.exports = {
     generateCounter: function () {
         return Counter.create({
-            counter_id: 1001
+            counter_id: 1002
         })
     }
 };

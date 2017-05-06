@@ -6,27 +6,6 @@ var router = express.Router();
 var sha1 = require('sha1');
 var UserDao = require('../dao/userDao');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    UserDao.findAppUserByPhone('15051813873')
-        .then(function (user) {
-            if (!user) {
-                res.send({
-                    status: 0
-                });
-                return;
-            }
-            res.send(user);
-            return;
-        })
-        .catch(function (err) {
-            res.send({
-                status: 4,
-                error: err
-            })
-        });
-});
-
 router.post('/rigister', function (req, res, next) {
 
     console.log(req.body);
@@ -36,7 +15,7 @@ router.post('/rigister', function (req, res, next) {
     let userEmail = req.body.useremail;
     let signedPwd = sha1(userPwd);
 
-    UserDao.registerAppUser({
+    UserDao.registerSysUser({
         user_phone: userPhone,
         user_pwd: signedPwd,
         user_email: userEmail
@@ -60,7 +39,7 @@ router.post('/login', function (req, res, next) {
 
     var signedPwd = sha1(userPwd);
 
-    UserDao.findAppUserByPhone(userPhone)
+    UserDao.findSysUserByPhone(userPhone)
         .then(function (data) {
             if (!data) {
                 return res.send({
