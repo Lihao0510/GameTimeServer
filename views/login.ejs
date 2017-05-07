@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta author="李昊">
-    <title>APP后台管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" href="/images/icon_manage_blue.png">
+    <title>GameTime后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/register-login.css">
 </head>
 <body>
@@ -54,7 +56,7 @@
 </div>
 
 <div class="footer">
-    <p>APP数据管理后台</p>
+    <p>GameTime数据管理后台</p>
     <p>Designed By Lihao & <a href="/">回到主页</a> 2017.1</p>
 </div>
 
@@ -79,8 +81,8 @@
             data: obj,
             success: function (data) {
                 if (data.status === 1) {
-                    //TODO: 后续改成前往 管理后台主页
-                    $('.error-blank').prepend('<p style="color: red; size: 12px">登陆成功</p>')
+                    //前往管理后台主页
+                    window.location.href = '/homepage'
                 } else {
                     //alert('登录失败:' + data.info)
                     $('.error-blank').prepend('<p style="color: red; size: 12px">用户名或密码错误</p>')

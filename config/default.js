@@ -6,7 +6,7 @@ module.exports = {
     //session
     cookie: {
         name: 'appuser',
-        secret: 'lihaodemo',
+        secret: 'gtcookiekey',
         maxage: '60 * 60 * 24'
     },
     //分页参数

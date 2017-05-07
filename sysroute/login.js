@@ -52,6 +52,8 @@ router.post('/login', function (req, res, next) {
                     error: "密码错误!"
                 })
             } else {
+                req.session.user = userPhone;
+                req.session.login = true;
                 return res.send({
                     status: 1,
                     msg: '登陆成功',
@@ -67,6 +69,8 @@ router.post('/login', function (req, res, next) {
         });
 
 });
+
+
 
 
 module.exports = router;
