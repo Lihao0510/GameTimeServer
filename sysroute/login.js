@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var sha1 = require('sha1');
 var UserDao = require('../dao/userDao');
+const checkLogin = require('../middleware/checklogin').checkLogin;
 
 router.post('/rigister', function (req, res, next) {
 
@@ -70,7 +71,14 @@ router.post('/login', function (req, res, next) {
 
 });
 
-
+//TODO 测试登出,暂未加中间件,正式上线需要添加checkLogin中间件
+router.get('/logout', checkLogin, function (req, res, next) {
+    req.session.user = null;
+    return res.send({
+        status: 1,
+        message: '登出成功'
+    })
+});
 
 
 module.exports = router;

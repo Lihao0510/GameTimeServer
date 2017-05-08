@@ -9,6 +9,7 @@
 module.exports = {
     checkLogin: function checkLogin(req, res, next) {
         if (!req.session.user) {
+            console.log('拦截到非法登录!');
             return res.send({
                 status: 9,
                 error: '您尚未登录,无法进行操作!'

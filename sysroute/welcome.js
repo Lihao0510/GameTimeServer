@@ -13,7 +13,7 @@ router.get('/register', function (req, res, next) {
 });
 
 router.get('/homepage', checkLogin, function (req, res, next) {
-    res.render('index');
+    res.render('index', {usermessage: req.session.user});
 });
 
 

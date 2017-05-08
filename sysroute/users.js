@@ -12,7 +12,15 @@ const sha1 = require('sha1');
 //根据用户手机号获取用户信息
 router.get('/getbyphone/:phone', function (req, res, next) {
 
+    console.log("用户电话:" + req.session.user);
     let phoneNum = req.params.phone;
+
+    if (phoneNum !== req.session.user){
+        return res.send({
+            status: 4,
+            error: '权限不足'
+        })
+    }
 
     UserDao.findSysUserByPhone(phoneNum)
         .then(function (user) {
