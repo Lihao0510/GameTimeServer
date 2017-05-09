@@ -32,6 +32,20 @@ app.use(session({
     saveUninitialized: true
 }));
 
+//允许跨域访问,开发阶段使用,正式上线移除
+app.all('*',function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+
+    if (req.method === 'OPTIONS') {
+        res.send(200);
+    }
+    else {
+        next();
+    }
+});
+
 //暂时注释掉请求Log
 /*app.use(expressWinston.logger({
     transports: [

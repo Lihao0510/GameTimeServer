@@ -18,7 +18,18 @@ let weixinNewsSchema = Schema({
     create_time: {type: Date}
 });
 
-//本地新闻数据模型
+
+/*
+ 本地新闻数据模型: 新闻分类暂定如下
+ <Option value="1">LOL新闻</Option>
+ <Option value="2">Dota2新闻</Option>
+ <Option value="3">炉石传说新闻</Option>
+ <Option value="4">王者荣耀新闻</Option>
+ <Option value="5">其他手游</Option>
+ <Option value="6">其他网游</Option>
+ <Option value="7">未分类</Option>
+ <Option value="0">特殊新闻</Option>
+*/
 let localNewsSchema = Schema({
     news_title: {type: String, unique: true, index: true},
     news_type: {type: Number, index: true},
