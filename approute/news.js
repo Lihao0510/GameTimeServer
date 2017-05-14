@@ -1,12 +1,12 @@
 /**
  * Created by Lihao on 2017/5/5.
  */
-var express = require('express');
-var router = express.Router();
-var moment = require('moment');
-var LocalNewsDao = require('../dao/localNewsDao');
-var WeixinNewsDao = require('../dao/weixinNewsDao');
-var CommentDao = require('../dao/commentDao');
+const express = require('express');
+const router = express.Router();
+const moment = require('moment');
+const LocalNewsDao = require('../dao/localNewsDao');
+const WeixinNewsDao = require('../dao/weixinNewsDao');
+const CommentDao = require('../dao/commentDao');
 
 //查找全部本地新闻
 router.get('/local/getallnews', function (req, res, next) {

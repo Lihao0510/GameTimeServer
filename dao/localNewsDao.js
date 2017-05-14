@@ -8,8 +8,13 @@ const moment = require('moment');
 
 module.exports = {
 
-    //新建本地新闻
+    //新建本地新闻, 若新闻原文过长, 截取前100个字符作为简介
     createLocalNews: function (news) {
+        if (news.news_content.length > 100) {
+            news.news_shotcut = news.news_content.substring(0, 100);
+        } else {
+            news.news_shotcut = news.news_content;
+        }
         return LocalNews.create(news);
     },
 
@@ -54,7 +59,7 @@ module.exports = {
     deleteAllLocalNews: function (userID) {
         return SysUser.findById(userID)
             .then(function (user) {
-                if(!user || user.user_type <=5){
+                if (!user || user.user_type <= 5) {
                     throw new Error('你没有操作权限!')
                 }
                 return LocalNews.remove({})

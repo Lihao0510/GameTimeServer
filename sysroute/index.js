@@ -8,4 +8,4 @@ module.exports = function (app) {
     app.use('/sys/counter', require('./counter'));
     app.use('/sys/login', require('./login'));
 
-}
+};

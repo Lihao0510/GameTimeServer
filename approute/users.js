@@ -2,6 +2,17 @@
  * App用户操作Controller
  * 入口: ip:port/users
  * Created by Lihao on 2017/5/1.
+ *
+ user_id: {type: Number, unique: true, default: 10000},
+ user_phone: {type: String, unique: true, index: true},
+ user_name: {type: String, index: true},
+ user_pwd: {type: String, required: true},
+ user_email: {type: String,},
+ user_desc: {type: String},
+ user_type: {type: Number, default: 0},
+ user_head: {type: String},
+ create_time: {type: Date},
+ update_time: {type: Date},
  */
 const express = require('express');
 const router = express.Router();
@@ -90,6 +101,7 @@ router.get('/getbyid/:userID', function (req, res, next) {
 
 });
 
+//获取全部用户，App是否需要该接口待定
 router.get('/getall', function (req, res, next) {
     UserDao.getAllAppUser()
         .then(function (users) {
@@ -112,6 +124,7 @@ router.get('/getall', function (req, res, next) {
         })
 });
 
+//App用户更改密码
 router.post('/changepwd', function (req, res, next) {
     let userPhone = req.body.userphone;
     let userOriginPwd = req.body.useroldpwd;
@@ -156,5 +169,31 @@ router.post('/changepwd', function (req, res, next) {
             });
         });
 });
+
+//修改用户其他资料，暂未测试
+router.post('/update', function (req, res, next) {
+    let user = req.body;
+    UserDao.updateAppUser(user)
+        .then(function (data) {
+            if (data.ok === 1) {
+                return res.send({
+                    status: 1,
+                    msg: '修改成功'
+                });
+            }else{
+                return res.send({
+                    status: 4,
+                    error: '修改失败'
+                });
+            }
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                error: error.toString()
+            });
+        });
+});
+
 
 module.exports = router;

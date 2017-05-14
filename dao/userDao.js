@@ -52,6 +52,18 @@ module.exports = {
         });
     },
 
+    updateAppUser: function (user) {
+        return AppUser.update({
+            user_phone: user.user_phone
+        }, {
+            $set: {
+                user_desc: user.user_desc,
+                user_head: user.user_head,
+                user_type: user.user_type
+            }
+        });
+    },
+
     //根据电话查找系统用户
     findSysUserByPhone: function (userPhone) {
         return SysUser.findOneAndUpdate({

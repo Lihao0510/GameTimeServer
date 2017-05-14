@@ -29,7 +29,7 @@ let weixinNewsSchema = Schema({
  <Option value="6">其他网游</Option>
  <Option value="7">未分类</Option>
  <Option value="0">特殊新闻</Option>
-*/
+ */
 let localNewsSchema = Schema({
     news_title: {type: String, unique: true, index: true},
     news_type: {type: Number, index: true},
@@ -37,6 +37,7 @@ let localNewsSchema = Schema({
     news_pic: {type: String},
     news_from: {type: String},
     news_reader: {type: Number, default: 0},
+    news_shotcut: {type: String},
     comments: [{type: Schema.ObjectId, ref: 'news_comment'}],
     create_time: {type: Date}
 });
@@ -47,6 +48,12 @@ let commentSchema = Schema({
     comment_body: {type: String, default: ''},
     comment_time: {type: Date}
 });
+
+//根据用户输入的新闻信息提取前100字作为简介，暂未实装
+/*localNewsSchema.pre('save', function (next) {
+    let doc= this;
+    doc.create_time = moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss');
+});*/
 
 const weixinNews = mongoose.model('weixin_news', weixinNewsSchema);
 const localNews = mongoose.model('local_news', localNewsSchema);

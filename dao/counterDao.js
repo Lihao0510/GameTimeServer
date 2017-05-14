@@ -10,6 +10,10 @@ module.exports = {
     generateCounter: function () {
         return Counter.create({
             counter_id: 1002
+        }).then(() => {
+            return Counter.create({
+                counter_id: 1002
+            });
         })
     }
 };

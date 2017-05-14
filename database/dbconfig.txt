@@ -1,1 +1,2 @@
-mongod --dbpath E:\MongoDB\DB
+windows: mongod --dbpath E:\MongoDB\DB
+mac: mongod -dbpath /Users/lihao/Desktop/WisdomNews/MongoEntity

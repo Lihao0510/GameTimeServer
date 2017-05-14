@@ -14,5 +14,9 @@ module.exports = {
         pageSize: 10
     },
     //mongoDB配置
-    mongoDB: 'mongodb://localhost:27017/gametime'
+    mongoDB: 'mongodb://localhost:27017/gametime',
+    //文件上传平配置
+    upload: {
+        path: process.cwd() + '/public/uploads'
+    }
 }
