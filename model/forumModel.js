@@ -9,7 +9,7 @@ const moment = require('moment');
 const postSchema = Schema({
     post_title: {type: String, unique: true, required: true},
     post_man: {type: Schema.Types.ObjectId, ref: 'app_user', required: true},
-    post_content: {type: String, required: ture},
+    post_content: {type: String, required: true},
     post_picture: {type: String},
     post_type: {type: Number, required: true, default: 0},
     post_reader: {type: Number, default: 0},

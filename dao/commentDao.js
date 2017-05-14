@@ -19,10 +19,13 @@ module.exports = {
             comment_body: commentBody,
             comment_time: commentTime
         })
-            //将评论的ID添加到新闻的评论列表中
+        //将评论的ID添加到新闻的评论列表中
             .then(function addcommentToNews(commentResult) {
                 //使用$push方法向comments中添加评论ID
-                return LocalNews.findByIdAndUpdate(newsID, {$push: {comments: commentResult._id}})
+                return LocalNews.findByIdAndUpdate(newsID, {
+                    $push: {comments: commentResult._id},
+                    $inc: {news_replyer: 1}
+                })
             });
     },
 
@@ -36,7 +39,7 @@ module.exports = {
             comment_body: commentBody,
             comment_time: commentTime
         })
-            //将评论的ID添加到新闻的评论列表中
+        //将评论的ID添加到新闻的评论列表中
             .then(function addcommentToNews(commentResult) {
                 //使用$push方法向comments中添加评论ID
                 return WeixinNews.findByIdAndUpdate(newsID, {$push: {comments: commentResult._id}})

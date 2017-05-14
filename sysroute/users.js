@@ -3,10 +3,10 @@
  * 入口: ip:port/sys/users
  * Created by Lihao on 2017/5/1.
  */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const UserDao = require('../dao/userDao');
-var moment = require('moment');
+const moment = require('moment');
 const sha1 = require('sha1');
 
 //根据用户手机号获取用户信息

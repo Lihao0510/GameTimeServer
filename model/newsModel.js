@@ -14,6 +14,7 @@ let weixinNewsSchema = Schema({
     news_pic: {type: String},
     news_from: {type: String},
     news_reader: {type: Number, default: 0},
+    news_replyer: {type: Number, default: 0},
     comments: [{type: Schema.ObjectId, ref: 'news_comment'}],
     create_time: {type: Date}
 });
@@ -37,6 +38,7 @@ let localNewsSchema = Schema({
     news_pic: {type: String},
     news_from: {type: String},
     news_reader: {type: Number, default: 0},
+    news_replyer: {type: Number, default: 0},
     news_shotcut: {type: String},
     comments: [{type: Schema.ObjectId, ref: 'news_comment'}],
     create_time: {type: Date}
