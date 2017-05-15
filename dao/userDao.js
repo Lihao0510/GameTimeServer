@@ -52,6 +52,7 @@ module.exports = {
         });
     },
 
+    //根据用户手机号码更新用户头像/详情等信息
     updateAppUser: function (user) {
         return AppUser.update({
             user_phone: user.user_phone
@@ -86,6 +87,15 @@ module.exports = {
             user_id: userNo
         }, {
             $set: {login_time: moment().utcOffset(-8).format('YYYY-MM-DD HH:mm:ss')}
+        });
+    },
+
+    //更改用户的等级
+    changeUserLevel: function (userPhone, userLevel) {
+        return AppUser.findOneAndUpdate({
+            user_phone: userPhone
+        }, {
+            $set: {user_type: userLevel}
         });
     },
 

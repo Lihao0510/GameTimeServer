@@ -38,7 +38,7 @@ module.exports = {
 
     //获取全部本地新闻,不分页
     getAllLocalNews: function () {
-        return LocalNews.find({})
+        return LocalNews.find({}, '_id news_title news_type news_pic news_from create_time news_replyer news_reader')
             .sort('-create_time');
     },
 

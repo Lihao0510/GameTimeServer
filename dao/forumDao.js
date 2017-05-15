@@ -17,21 +17,26 @@ module.exports = {
     },
 
     pageQueryLatestPost: function (pageNum, pageSize) {
-        return Post.find({})
+        return Post.find({}, 'post_title post_man post_picture post_type post_reader post_replyed post_shotcut create_time')
             .skip(pageNum * pageSize)
             .limit(pageSize)
+            .populate({
+                path: 'post_man',
+                model: 'app_user',
+                select: 'user_name user_phone user_type user_head',
+            })
             .sort('-create_time');
     },
 
     pageQueryPostByType: function (pageNum, pageSize, newsType) {
-        return Post.find({post_type: newsType})
+        return Post.find({post_type: newsType}, 'post_title post_man post_picture post_type post_reader post_replyed post_shotcut create_time')
             .skip(pageNum * pageSize)
             .limit(pageSize)
             .sort('-create_time');
     },
 
     queryPostByCreater: function (creater) {
-        return Post.find({post_man: creater})
+        return Post.find({post_man: creater}, 'post_title post_man post_picture post_type post_reader post_replyed post_shotcut create_time')
             .sort('-create_time');
     },
 
@@ -66,7 +71,7 @@ module.exports = {
             reply_body: replyBody,
             reply_time: replyTime
         })
-        //将评论的ID添加到新闻的评论列表中
+            //将评论的ID添加到新闻的评论列表中
             .then(function addReplyToPost(commentResult) {
                 //使用$push方法向comments中添加评论ID
                 return Post.findByIdAndUpdate(postID, {
@@ -76,6 +81,7 @@ module.exports = {
             });
     },
 
+    //删除指定ID的评论
     deleteReplyByID: function (replyID) {
         return PostReply.remove({_id: replyID})
     }

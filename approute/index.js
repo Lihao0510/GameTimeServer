@@ -8,4 +8,5 @@ module.exports = function (app) {
     app.use('/users', require('./users'));
     app.use('/news', require('./news'));
     app.use('/upload', require('./upload'));
+    app.use('/forum', require('./forum'));
 };
