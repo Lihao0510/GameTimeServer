@@ -1,2 +1,3 @@
 windows: mongod --dbpath E:\MongoDB\DB
 mac: mongod -dbpath /Users/lihao/Desktop/WisdomNews/MongoEntity
+cloud: mongo --host 47.93.58.81:3717 -u root -p 556371qQ --authenticationDatabase admin
