@@ -9,4 +9,5 @@ module.exports = function (app) {
     app.use('/news', require('./news'));
     app.use('/upload', require('./upload'));
     app.use('/forum', require('./forum'));
+    app.use('/talktalk', require('./talktalk'));
 };

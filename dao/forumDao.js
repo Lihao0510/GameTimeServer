@@ -1,4 +1,5 @@
 /**
+ * 论坛模块数据库操作类
  * Created by lihao on 2017/5/13.
  */
 const Post = require('../model/forumModel').Post;

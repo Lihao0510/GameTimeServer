@@ -2,7 +2,7 @@
  * Created by lihao on 2017/5/16.
  */
 const redis = require('redis');
-const client = redis.createClient(6379, "127.0.0.1", {});
+const client = redis.createClient(6379, "47.93.58.81", {});
 
 client.on("error", function (err) {
     console.log("Error " + err);
