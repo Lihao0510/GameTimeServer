@@ -48,6 +48,7 @@ router.get('/getlatest/:page', function (req, res, next) {
 router.get('/getbycreater/:creater/:page', function (req, res, next) {
     let createrID = req.params.creater;
     let pageNum = req.params.page;
+    console.log('参数:creater:'　+ createrID + '参数:page:' + pageNum);
     TalktalkDao.pageQueryTalkByCreater(createrID, pageNum, 20)
         .then(function (data) {
             res.send({

@@ -3,6 +3,7 @@
  * Created by lihao on 2017/5/13.
  */
 var TalkTalk = require('../model/talktalkModel').TalkTalk;
+const mongoose = require('mongoose');
 const moment = require('moment');
 
 module.exports = {
@@ -13,8 +14,8 @@ module.exports = {
         if (talkPictrue && talkPictrue.length > 0) {
             talkBean = {
                 talk_content: talkContent,
-                talk_creater: talkPictrue,
-                talk_pictrue: userID,
+                talk_creater: userID,
+                talk_pictrue: talkPictrue,
             }
         } else {
             talkBean = {
@@ -46,7 +47,9 @@ module.exports = {
 
     //分页获取指定用户的最新说说
     pageQueryTalkByCreater: function (createrID, pageNum, pageSize) {
+        
         return TalkTalk.find({
+            //talk_creater: mongoose.Types.ObjectId(createrID)
             talk_creater: createrID
         })
             .skip(pageNum * pageSize)
