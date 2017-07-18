@@ -167,4 +167,30 @@ router.post('/changepwd', function (req, res, next) {
         });
 });
 
+//修改系统用户等级，暂未测试
+router.post('/update', function (req, res, next) {
+    let userID = req.body.userID;
+    let userLevel = req.body.userLevel;
+    UserDao.changeSysUserLevel(userID, userLevel)
+        .then(function (data) {
+            if (data.ok === 1) {
+                return res.send({
+                    status: 1,
+                    msg: '修改成功'
+                });
+            }else{
+                return res.send({
+                    status: 4,
+                    error: '修改失败'
+                });
+            }
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                error: error.toString()
+            });
+        });
+});
+
 module.exports = router;

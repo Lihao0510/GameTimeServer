@@ -142,6 +142,46 @@ router.post('/weixin/create', function (req, res, next) {
         });
 });
 
+router.post('/weixin/delete', function (req, res, next) {
+    let newsID = req.body.newsID;
+
+    WeixinNewsDao.deleteWeixinNews(newsID)
+        .then(function (deleteResult) {
+            return res.send({
+                status: 1,
+                result: '新闻删除成功!'
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
+});
+
+router.post('/local/delete', function (req, res, next) {
+
+    let newsIDs = req.body.newsIDLine.split(',');
+
+    console.log(newsIDs);
+    LocalNewsDao.deleteLocalNews(newsIDs)
+        .then(function (deleteResult) {
+            console.log(deleteResult);
+            return res.send({
+                status: 1,
+                result: '新闻删除成功!'
+            })
+        })
+        .catch(function (error) {
+            return res.send({
+                status: 4,
+                data: error.toString()
+            })
+        })
+
+});
+
 //为本地新闻增加评论
 router.post('/localcomment/:localNewsID', function (req, res, next) {
 

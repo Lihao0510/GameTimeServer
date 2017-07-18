@@ -116,5 +116,14 @@ module.exports = {
         }, {
             $set: {user_pwd: userPwd}
         });
-    }
+    },
+
+    //更改系统用户的等级
+    changeSysUserLevel: function (userID, userLevel) {
+        return SysUser.findOneAndUpdate({
+            user_id: userID
+        }, {
+            $set: {user_type: userLevel}
+        });
+    },
 };

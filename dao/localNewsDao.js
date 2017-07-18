@@ -38,21 +38,23 @@ module.exports = {
 
     //获取全部本地新闻,不分页
     getAllLocalNews: function () {
-        return LocalNews.find({}, '_id news_title news_type news_pic news_from create_time news_replyer news_reader')
+        return LocalNews.find({}, '_id news_title news_type news_pic news_from create_time news_replyer news_reader news_visible')
             .sort('-create_time');
     },
 
     //根据分页参数获取一定数目的本地新闻
     pageQueryLocalNews: function (pageNum, pageSize) {
-        return LocalNews.find({})
+        return LocalNews.find({
+            news_visible: 1
+        })
             .skip(pageNum * pageSize)
             .limit(pageSize)
             .sort('-create_time');
     },
 
     //删除指定ID的本地新闻
-    deleteLocalNews: function (newsID) {
-        return LocalNews.remove({_id: newsID})
+    deleteLocalNews: function (newsIDArr) {
+        return LocalNews.remove({_id: {$in: newsIDArr}})
     },
 
     //删除全部新闻,需要提供userID辨别权限

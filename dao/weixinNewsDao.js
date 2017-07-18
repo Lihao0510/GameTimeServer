@@ -33,13 +33,15 @@ module.exports = {
 
     //获取全部本地新闻,不分页
     getAllWeixinNews: function () {
-        return  WeixinNews.find({})
+        return WeixinNews.find({})
             .sort('-create_time');
     },
 
     //根据分页参数获取一定数目的本地新闻
     pageQueryWeixinNews: function (pageNum, pageSize) {
-        return  WeixinNews.find({})
+        return WeixinNews.find({
+            news_visible: 1
+        })
             .skip(pageNum * pageSize)
             .limit(pageSize)
             .sort('-create_time');
@@ -54,7 +56,7 @@ module.exports = {
     deleteAllWeixinNews: function (userID) {
         return SysUser.findById(userID)
             .then(function (user) {
-                if(!user || user.user_type <=5){
+                if (!user || user.user_type <= 5) {
                     throw new Error('你没有操作权限!')
                 }
                 return WeixinNews.remove({})
